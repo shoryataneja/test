@@ -1,5 +1,5 @@
 import React , {useState,useEffect} from 'react'
-import {View, Text , ScrollView} from 'react-native' 
+import {View, Text ,FlatList} from 'react-native' 
 
 
 export default function App() {
@@ -11,6 +11,7 @@ export default function App() {
             const res = await fetch("https://jsonplaceholder.typicode.com/posts")
             const j = await res.json()
             setData(j)
+
             // setData(json)
         } catch (err) {
             console.log(err)
@@ -22,12 +23,18 @@ export default function App() {
    },[])
 
    return (
-    <ScrollView style = {{padding : 20 }}>
-        {data.slice(0,10).map((item) => (
-  <Text key={item.id} style={{ marginBottom: 10 }}>
-    {item.title}
-  </Text>
-))}
-    </ScrollView>
+    <View>
+        <FlatList
+                        data = {data}
+                        keyExtractor = {(item)=>item.id.toString()}
+                        renderItem = {({item}) => (
+                            <Text>{item.body}</Text>
+                        )}
+        
+        >
+        </FlatList>
+    </View>
    )
+
+
 }
